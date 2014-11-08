@@ -1,11 +1,13 @@
+var iFrame;
+
 function createButtons()
 {
 	// Get the list of matches from the bracket
-	var matches = $(".match_table.match_qtip.match-tipsy");
+	var matches = $("body", window.frames[0].document).find(".match_table.match_qtip.match-tipsy");
 	matches.each(function() {
 
-	// Save this into match so we always have match context
-	var match = $(this);
+		// Save this into match so we always have match context
+		var match = $(this);
 
 		if (!$(match).hasClass("stream-processed"))
 		{
@@ -84,7 +86,7 @@ window.onload = function()
 	iFrame.onload = function()
 	{
 		setInterval(function() {
-			iFrame.contentWindow.createButtons();
+			createButtons();
 		}, 100);
 	};
 };
