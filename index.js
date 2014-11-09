@@ -62,10 +62,10 @@ function createButtons()
 	,	download: "trigger.txt"
 	}).appendTo(player1);
 
-	// Grab the links that we just created
+	// Grab the link that we just created
 	var link = $(match).find(".core a")[0];
 
-	// Add a new click handler to click the links we created
+	// Add a new click handler to click the link we created
 	$(match_id).click(function() {
 		link.click();
 	});
@@ -87,16 +87,15 @@ function setWinnersRounds()
 
 function setLosersRounds()
 {
-	var i;
-	for (i = 1; window.frames[0].document.getElementById("round-" + i + "_label"); i++)
+	for (losersRounds = 1; window.frames[0].document.getElementById("round-" + losersRounds + "_label"); losersRounds++)
 		;
-	losersRounds = i-1;
+	losersRounds--;
 }
 
 window.onload = function()
 {
 	var iFrame = document.getElementById("frame");
-	iFrame.src = "http://michigansmash.challonge.com/umb4";
+	iFrame.src = "http://michigansmash.challonge.com/umb5";
 	iFrame.onload = function()
 	{
 		setWinnersRounds();
