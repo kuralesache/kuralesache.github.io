@@ -63,7 +63,14 @@ function createButtons()
 	}).appendTo(player1);
 
 	// Grab the link that we just created
-	var link = $(match).find(".core a")[0];
+	var link = $(match).find(".core a")[0];\
+
+	$(match_id).unbind("click");
+
+	// Add a new click handler to click the link we created
+	$(match_id).click(function() {
+		link.click();
+	});
 
 	// Add a new click handler to click the link we created
 	$(match_id).click(function() {
