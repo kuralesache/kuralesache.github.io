@@ -1,92 +1,57 @@
-var iFrame;
-
 function createButtons()
 {
-	// Get the list of matches from the bracket
-	var matches = $("body", window.frames[0].document).find(".match_table.match_qtip.match-tipsy");
-	matches.each(function() {
+	// Save this into match so we always have match context
+	var match = $(this);
 
-		// Save this into match so we always have match context
-		var match = $(this);
+	// skip a match if has already been processed
+	if ($(match).hasClass("stream-processed"))
+		return;
 
-		if (!$(match).hasClass("stream-processed"))
-		{
-			// If we have not processed a match, grab the id and both players
-			var match_id = $(match).find(".btn.btn-link.match_identifier.dropdown-toggle");
-			var player1 = $(match).find(".match_top_half .inner_content span");
-			var player2 = $(match).find(".match_bottom_half .inner_content span");
+	// If we have not processed a match, grab the id and both players
+	var match_id = $(match).find(".btn.btn-link.match_identifier.dropdown-toggle");
+	var player1  = $(match).find(".match_top_half .inner_content span");
+	var player2  = $(match).find(".match_bottom_half .inner_content span");
 
-			// This is a way to tell if a match is ready to be processed
-			if (player1.attr("title") && player2.attr("title"))
-			{
-				// Create the player text files
-				var player1URL = window.URL.createObjectURL(new Blob([$(player1).text()]));
-				var player2URL = window.URL.createObjectURL(new Blob([$(player2).text()]));
+	// skip a match if it is not ready to be processed
+	if (!(player1.attr("title") && player2.attr("title")))
+		return;
 
-				// If we don't find a player file
-				if ($(player1).find("a").length > 0)
-				{   
-					// Replace current link with new link
-					$(player1).find("a").replaceWith($("<a></a>").
-					    attr("href", player1URL).
-					    attr("download", "player1.txt")
-					)
-				}
-				else
-				{
-					// Otherwise create the link because it never existed
-					$("<a></a>").
-				    attr("href", player1URL).
-				    attr("download", "player1.txt").
-				    appendTo($(player1));
-				}
+	// Create the trigger file
+	var triggerURL = window.URL.createObjectURL(new Blob([
+			$(player1).text()+  "\n" + $(player2).text()
+		]));
 
-				// If we don't find a player file
-				if (player2.find("a").length > 0)
-				{
-					// Replace current link with new link
-					player2.find("a").replaceWith($("<a></a>").
-					    attr("href", player2URL).
-					    attr("download", "player2.txt")
-					)
-				}
-				else
-				{
-					// Otherwise create the link because it never existed
-					$("<a></a>").
-				    attr("href", player2URL).
-				    attr("download", "player2.txt").
-				    appendTo($(player2));
-				}
+	// create a link
+	$("<a>",
+	{	href: triggerURL
+	,	download: "trigger.txt"
+	}).appendTo(player1);
 
-				// Grab the links that we just created
-				var links = $(match).find(".core a");
+	// Grab the links that we just created
+	var link = $(match).find(".core a")[0];
 
-				// Unbind the matches click handler so we don't create multiples
-				$(match_id).unbind("click");
-
-				// Add a new click handler to click the links we created
-				$(match_id).click(function() {
-					links.each(function(index, value) {
-						$(value)[0].click();
-					});
-				});
-
-				// Mark the match as processed
-			    $(match).addClass("stream-processed");
-			}
-		}
+	// Add a new click handler to click the links we created
+	$(match_id).click(function() {
+		link.click();
 	});
+
+	// Mark the match as processed
+    $(match).addClass("stream-processed");
+
+    $(match_id).css("background-color", "red");
+    $(match_id).css("color", "white");
 }
 
 window.onload = function()
 {
-	iFrame = document.getElementById("frame");
+	var iFrame = document.getElementById("frame");
 	iFrame.src = "http://michigansmash.challonge.com/umb4";
 	iFrame.onload = function()
 	{
 		setInterval(function() {
-			createButtons();
+			// Get the list of matches from the bracket
+			var matches = $("body", window.frames[0].document).find(".match_table.match_qtip.match-tipsy");
+			matches.each(createButtons);
 		}, 100);
 	};
 };
