@@ -69,6 +69,7 @@ function createButtons()
 
 	// Add a new click handler to click the link we created
 	$(match_id).click(function() {
+		console.log(link);
 		link.click();
 	});
 
