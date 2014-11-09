@@ -1,3 +1,5 @@
+var winnersRounds, losersRounds;
+
 function createButtons()
 {
 	// Save this into match so we always have match context
@@ -9,6 +11,7 @@ function createButtons()
 
 	// If we have not processed a match, grab the id and both players
 	var match_id = $(match).find(".btn.btn-link.match_identifier.dropdown-toggle");
+	var round    = parseInt($(match).find(".match_top_half .inner_content").attr("data-round"));
 	var player1  = $(match).find(".match_top_half .inner_content span");
 	var player2  = $(match).find(".match_bottom_half .inner_content span");
 
@@ -16,10 +19,42 @@ function createButtons()
 	if (!(player1.attr("title") && player2.attr("title")))
 		return;
 
+	if (round > 0)
+	{
+		switch (winnersRounds-round)
+		{
+			case 0:
+				round_text = "Grand Finals";
+				break;
+			case 1:
+				round_text = "Winners' Finals";
+				break;
+			case 2:
+				round_text = "Winners' Semifinals";
+				break;
+			default:
+				round_text = "Winners' Top " + Math.pow(2, winnersRounds-round);
+				break;
+		}
+	}
+	else
+	{
+		round *= -1;
+		switch (losersRounds-round)
+		{
+			case 0:
+				round_text = "Losers' Finals";
+				break;
+			default:
+				round_text = "Top " + (Math.pow(2, winnersRounds-1-(0|(round/2))) * (1 + ((losersRounds-round+1)%2)/2)) + ", Losers' Side";
+				break;
+		}
+	}
+ 
 	// Create the trigger file
 	var triggerURL = window.URL.createObjectURL(new Blob([
-			$(player1).text()+  "\n" + $(player2).text()
-		]));
+		$(player1).text() +  "\n" + $(player2).text() + "\n" + round_text
+	]));
 
 	// create a link
 	$("<a>",
@@ -42,16 +77,34 @@ function createButtons()
     $(match_id).css("color", "white");
 }
 
+function setWinnersRounds()
+{
+	var i;
+	for (i = 1; window.frames[0].document.getElementById("round" + i + "_label"); i++)
+		;
+	winnersRounds = i-1;
+}
+
+function setLosersRounds()
+{
+	var i;
+	for (i = 1; window.frames[0].document.getElementById("round-" + i + "_label"); i++)
+		;
+	losersRounds = i-1;
+}
+
 window.onload = function()
 {
 	var iFrame = document.getElementById("frame");
 	iFrame.src = "http://michigansmash.challonge.com/umb4";
 	iFrame.onload = function()
 	{
+		setWinnersRounds();
+		setLosersRounds();
 		setInterval(function() {
 			// Get the list of matches from the bracket
 			var matches = $("body", window.frames[0].document).find(".match_table.match_qtip.match-tipsy");
 			matches.each(createButtons);
-		}, 100);
+		}, 300);
 	};
 };
