@@ -64,7 +64,6 @@ function createButtons()
 
 	// Grab the link that we just created
 	var link = $(player1).find("a")[0];
-		console.log(link);
 
 	$(match_id).unbind("click");
 
