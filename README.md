@@ -1,2 +1,0 @@
-kuralesache.github.io
-=====================

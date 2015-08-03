@@ -1,0 +1,17 @@
+characters.fox.movelist =
+[	"jab"
+// ,	"usmash"
+// ,	"fsmash"
+,	"dsmash"
+,	"utilt"
+// ,	"ftilt"
+// ,	"dtilt"
+// ,	"nair"
+// ,	"uair"
+// ,	"fair"
+// ,	"bair"
+// ,	"dair"
+// ,	"ub"
+// ,	"fb"
+// ,	"db"
+];

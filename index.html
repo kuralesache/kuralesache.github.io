@@ -1,11 +1,19 @@
 <html>
 	<head>
-		<title>Challonge Stream Integration</title>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-		<script type="text/javascript" src="index.js"></script>
+		<title>Frame-O-Matic</title>
 		<link rel="stylesheet" type="text/css" href="style.css">
+		<!-- CLASSES -->
+		<script type="text/javascript" src="js/canvas.js"></script>
+		<script type="text/javascript" src="js/tools.js"></script>
+		<script type="text/javascript" src="js/index.js"></script>
 	</head>
 	<body>
-		<iframe id="frame" sandbox="allow-same-origin allow-scripts"></iframe>
+		<canvas id="canvas" width="1440" height="1080"></canvas>
+		<div id="control_panel_container">
+			<div id="control_panel"><button type="button" id="apply_button" onclick="applySettings()">APPLY</button></div>
+		</div>
+
+		<img id="stage">
+		<img id="character">
 	</body>
 </html>

@@ -1,9 +1,59 @@
-body {
+/* reset */
+html, body, img, canvas {
 	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
 }
 
-#frame {
-	width: 100%;
+#canvas {
+	position: absolute;
+	z-index: 1;
+}
+
+#stage {
+	position: absolute;
+	z-index: 0;
+}
+
+#character {
+	position: absolute;
+	z-index: 2;
+}
+
+#control_panel_container {
+	position: absolute;
+	right: 0;
+	color: #FFFFFF;
+	background-color: #3C4B78;
+	width: 480px;
 	height: 100%;
-	border: none;
+}
+
+#control_panel {
+	font-size: 2em;
+	margin: 40px;
+	font-family: Courier;
+	font-weight: bold;
+	font-variant: small-caps;
+}
+
+#apply_button {
+	color: #000000;
+	position: absolute;
+	bottom:40px;
+	width:80%;
+	font-family: Courier;
+	font-weight: bold;
+	font-variant: small-caps;
+	font-size: 1em;
+	background-color: #9CABD8;
+}
+
+.option_title {
+	font-size: 1.2em;
+}
+
+.option {
+	margin-bottom: 20px;
 }
